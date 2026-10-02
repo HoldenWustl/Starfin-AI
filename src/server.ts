@@ -1,5 +1,9 @@
+import { startDiscordBot } from "./discord/bot.js";
+
 import express from "express";
 import { config } from "./config.js";
+
+
 
 const app = express();
 
@@ -20,6 +24,7 @@ app.post("/webhooks/github", (req, res) => {
 
   res.status(200).json({ received: true });
 });
+startDiscordBot();
 
 app.listen(config.PORT, () => {
   console.log(`Starfin AI running on http://localhost:${config.PORT}`);
