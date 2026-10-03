@@ -1,4 +1,6 @@
 import "dotenv/config";
+import { createJob } from "../jobs/create-job.js"; 
+
 import {
   Client,
   GatewayIntentBits,
@@ -26,11 +28,31 @@ discordClient.once(Events.ClientReady, (client) => {
 discordClient.on(Events.MessageCreate, async (message) => {
   if (message.author.bot) return;
 
+  if (message.content.startsWith("!starfin fix")) {
+    const task = message.content.slice("!starfin fix".length).trim();
+
+    const job = await createJob({
+      source: "discord",
+      task,
+      requestedBy: message.author.username,
+    });
+
+    await message.reply(`
+Task received
+Job: ${job.id}
+Status: ${job.status}
+${job.task}
+`);
+  }
+
   if (message.content === "!starfin ping") {
     await message.reply("Starfin AI is online.");
   }
 });
 
+
+
 export async function startDiscordBot() {
   await discordClient.login(token);
 }
+
