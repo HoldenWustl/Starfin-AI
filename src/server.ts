@@ -1,10 +1,10 @@
-import { startDiscordBot } from "./discord/bot.js";
-
-import express from "express";
-import { config } from "./config.js";
 import "dotenv/config";
 
+import express from "express";
 
+import { config } from "./config.js";
+import { startDiscordBot } from "./discord/bot.js";
+import { handleGitHubWebhook } from "./github/webhook.js";
 
 const app = express();
 
@@ -18,13 +18,8 @@ app.get("/health", (_req, res) => {
   });
 });
 
-app.post("/webhooks/github", (req, res) => {
-  console.log("GitHub webhook received:");
-  console.log(req.headers);
-  console.log(req.body);
+app.post("/webhooks/github", handleGitHubWebhook);
 
-  res.status(200).json({ received: true });
-});
 startDiscordBot();
 
 app.listen(config.PORT, () => {
