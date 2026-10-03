@@ -2,6 +2,7 @@ import { startDiscordBot } from "./discord/bot.js";
 
 import express from "express";
 import { config } from "./config.js";
+import "dotenv/config";
 
 
 
