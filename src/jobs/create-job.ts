@@ -26,9 +26,12 @@ export async function createJob(
     id: randomUUID(),
     source: input.source,
     task: input.task,
-    requestedBy: input.requestedBy,
     status: "queued",
     createdAt: new Date().toISOString(),
+
+    ...(input.requestedBy !== undefined
+      ? { requestedBy: input.requestedBy }
+      : {}),
   };
 
   console.log("New Starfin AI job:");
