@@ -48,6 +48,21 @@ ${job.task}
   if (message.content === "!starfin ping") {
     await message.reply("Starfin AI is online.");
   }
+
+
+if (message.content === "!starfin help") {
+    await message.reply(`
+**Starfin commands**
+\`!starfin fix <task>\`: creates a job for the task you describe
+\`!starfin ping\`: checks if Starfin AI is online
+\`!starfin help\`: shows this list
+`);
+  }
+
+  if(message.content =="!starfin hi"){
+    await message.reply("Hi there im Starfin's ai, what can i help you with today?");
+  }
+  
 });
 
 
