@@ -70,4 +70,3 @@ if (message.content === "!starfin help") {
 export async function startDiscordBot() {
   await discordClient.login(token);
 }
-

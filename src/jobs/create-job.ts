@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { saveJob } from "./job-store.js";
 
 export type JobSource = "discord" | "github";
 
@@ -33,6 +34,8 @@ export async function createJob(
       ? { requestedBy: input.requestedBy }
       : {}),
   };
+
+  saveJob(job);
 
   console.log("New Starfin AI job:");
   console.log(job);
