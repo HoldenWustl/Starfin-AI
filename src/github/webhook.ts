@@ -20,6 +20,7 @@ export async function handleGitHubWebhook(
   }
 
   const repo = payload.repository?.full_name;
+  const cloneUrl = payload.repository?.clone_url;
   const commit = payload.after;
   const author = payload.pusher?.name;
 
@@ -33,7 +34,10 @@ export async function handleGitHubWebhook(
   const job = await createJob({
     source: "github",
     task: `Check ${repo} after push ${commit}`,
-    requestedBy: author,
+    ...(author !== undefined ? { requestedBy: author } : {}),
+    ...(cloneUrl !== undefined ? { repository: cloneUrl } : {}),
+    branch: "develop",
+    ...(commit !== undefined ? { commit } : {}),
   });
 
   res.status(200).json({
