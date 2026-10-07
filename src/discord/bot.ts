@@ -64,8 +64,11 @@ ${job.task}
     await message.reply("Hi there im Starfin's ai, what can i help you with today?");
   }
 
+  // ===== STATUS BLOCK (this is the part with the new console.logs) =====
   if (message.content.startsWith("!starfin status")) {
     const jobId = message.content.slice("!starfin status".length).trim();
+
+    console.log("Looking for:", JSON.stringify(jobId));   // log #1
 
     if (!jobId) {
       await message.reply("Please provide a job ID, e.g. `!starfin status <job id>`");
@@ -75,9 +78,12 @@ ${job.task}
     let job;
     try {
       job = await getJob(jobId);
-    } catch {
+    } catch (err) {
+      console.log("getJob threw:", err);                  // log #2
       job = null;
     }
+
+    console.log("Result:", job);                          // log #3
 
     if (!job) {
       await message.reply("Job not found");
@@ -90,6 +96,7 @@ Status: ${job.status}
 ${job.task}
 `);
   }
+  // ===== END STATUS BLOCK =====
 });
 
 export async function startDiscordBot() {
