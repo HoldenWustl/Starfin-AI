@@ -44,6 +44,42 @@ Job: ${job.id}
 Status: ${job.status}
 ${job.task}
 `);
+
+// --- NEW: auto-notify when the job finishes ---
+const MAX_WAIT_MS = 10 * 60 * 1000; // give up after 10 minutes
+const startedAt = Date.now();
+let checking = false; // prevents overlapping checks if one run is slow
+
+const interval = setInterval(async () => {
+  if (checking) return;
+  checking = true;
+
+  try {
+    const updatedJob = getJob(job.id); // add `await` if getJob is async
+
+    if (!updatedJob) {
+      clearInterval(interval);
+      return;
+    }
+
+    if (updatedJob.status === "completed") {
+      clearInterval(interval);
+      await message.channel.send(`Task: ${task}\n✔ Completed`);
+    } else if (updatedJob.status === "failed") {
+      clearInterval(interval);
+      await message.channel.send(`Task: ${task}\n✖ Failed`);
+    } else if (Date.now() - startedAt > MAX_WAIT_MS) {
+      clearInterval(interval);
+      await message.channel.send(`Task: ${task}\n⚠ Still not finished, I stopped checking.`);
+    }
+  } catch (err) {
+    console.error("Status polling error:", err);
+    clearInterval(interval);
+  } finally {
+    checking = false;
+  }
+}, 1000);
+
   }
 
   if (message.content === "!starfin ping") {
