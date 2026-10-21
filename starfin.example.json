@@ -1,0 +1,7 @@
+{
+  "install": ["npm", "ci"],
+  "checks": [
+    { "name": "typecheck", "command": ["npm", "run", "typecheck"] },
+    { "name": "test", "command": ["npm", "test"] }
+  ]
+}
