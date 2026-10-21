@@ -1,17 +1,22 @@
 {
   "name": "starfin-ai",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Discord-controlled AI coding agent with verified GitHub pull requests",
+  "main": "dist/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/server.ts",
-    "start": "tsx src/server.ts",
-    "typecheck": "tsc --noEmit"
+    "setup": "node --import tsx scripts/setup.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node --import tsx src/index.ts",
+    "build": "tsc",
+    "start:prod": "node dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "doctor": "node --import tsx scripts/doctor.ts"
   },
   "keywords": [],
   "type": "module",
   "dependencies": {
+    "discord.js": "^14.27.0",
     "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "zod": "^4.6.5"
@@ -21,5 +26,12 @@
     "@types/node": "^26.6.4",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "discord.js@14.27.0": true,
+    "dotenv@18.0.5": true
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

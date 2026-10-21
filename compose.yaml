@@ -1,0 +1,16 @@
+services:
+  starfin:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      STARFIN_DATA_DIR: /app/data
+      STARFIN_WORKSPACE_ROOT: ${STARFIN_HOST_WORKSPACE_ROOT:?Set STARFIN_HOST_WORKSPACE_ROOT to an absolute host path for Docker Compose}
+    ports:
+      - "127.0.0.1:${PORT:-4000}:${PORT:-4000}"
+    volumes:
+      - starfin-data:/app/data
+      - ${STARFIN_HOST_WORKSPACE_ROOT}:${STARFIN_HOST_WORKSPACE_ROOT}
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  starfin-data:
