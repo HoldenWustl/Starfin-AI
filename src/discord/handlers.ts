@@ -73,7 +73,7 @@ export async function handleCommand(command: string, value: string, context: Com
   }
   if (command === "repo") return { content: `Repository: ${config.STARFIN_TARGET_REPOSITORY}\nBase branch: ${config.STARFIN_TARGET_BRANCH || "repository default (auto-detected)"}\nAI model: ${config.AI_MODEL}\nRunner: ${config.STARFIN_EXECUTION_MODE}` };
   if (command === "doctor") return { content: await doctor() };
-  if (command === "ping" || command === "hi") return { content: "Starfin AI is online. Use `/starfin help` for commands." };
+  if (command === "ping" || command === "hi") return { content: "Starfin AI is online. Use `/starfin help` for commands. 👍" };
   if (command === "help") return { content: helpText };
   return { content: "Unknown command. Use `/starfin help`." };
 }
