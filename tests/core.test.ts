@@ -59,6 +59,10 @@ test("Discord requires an allowed account/role, server, and channel", async () =
   for (const change of [{ userId: "999" }, { guildId: null }, { guildId: "999" }, { channelId: "999" }]) assert.equal(isAuthorized({ ...context, ...change }), false);
   await assert.rejects(handleCommand("fix", "change code", { ...context, userId: "999" }), /authorized/);
 });
+test("ping replies that Starfin is online and ends with a thumbs up", async () => {
+  const response = await handleCommand("ping", "", context);
+  assert.match(response.content as string, /^Starfin AI is online\..*👍$/);
+});
 test("prefix commands parse complete tasks without accepting near matches", () => {
   assert.deepEqual(parsePrefix("!starfin fix add a test\nfor the bug"), { command: "fix", value: "add a test\nfor the bug" });
   assert.deepEqual(parsePrefix("!status abc123"), { command: "status", value: "abc123" });
